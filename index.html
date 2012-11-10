@@ -39,13 +39,9 @@
 					//despliega y graba latitud y longitud
 					//************************************
 					if(window.localStorage.getItem("latitud")){
-						alert(window.localStorage.getItem("latitud"));
+						alert("latitud:"+window.localStorage.getItem("latitud")+"<br />"+"longitud:"+window.localStorage.getItem("longitud"));
 					} else {
 						window.localStorage.setItem("latitud",position.coords.latitude);
-					}
-					if(window.localStorage.getItem("longitud")){
-						alert(window.localStorage.getItem("longitud"));
-					} else {
 						window.localStorage.setItem("longitud",position.coords.longitude);
 					}
 				}, function(err){
