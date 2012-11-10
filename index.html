@@ -7,11 +7,11 @@
       body { height: 100%; margin: 0; padding: 0 }
       #map_canvas { height: 100% }
     </style>
-    <script type="text/javascript" src="js/actions.js"> </script>
     <script type="text/javascript" src="phonegap.js"> </script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
     <script type="text/javascript">
       function initialize() {
+		document.addEventListener("deviceready", function(){
 		var mylating = new google.maps.LatLng(-34.397, 150.644);
         var mapOptions = {
           center: mylating,
@@ -25,8 +25,32 @@
 		    title:"AQUI ESTOY!"
 		});
 
+		document.addEventListener("online", function(){
+			alert(navigator.network.connection.type);
+			if(navigator.network.connection.type=="wifi"){
+				navigator.geolocation.getCurrentPosition(function(position){
+					mylating = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+					if(window.localStorage.getItem("latitud")){
+						alert(window.localStorage.getItem("latitud"));
+					} else {
+						window.localStorage.setItem("latitud",position.coords.latitude);
+					}
+					if(window.localStorage.getItem("longitud")){
+						alert(window.localStorage.getItem("longitud"));
+					} else {
+						window.localStorage.setItem("longitud",position.coords.latitude);
+					}
+				}, function(err){
+					alert(err.code);
+				});
+			} 
+		},false);
+
+
+
 		// To add the marker to the map, call setMap();
 		marker.setMap(map);
+      },false);	   
       }
     </script>
   </head>
