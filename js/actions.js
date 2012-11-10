@@ -27,7 +27,12 @@ function docReady() {
 			alert(navigator.network.connection.type);
 			if(navigator.network.connection.type=="wifi"){
 				navigator.geolocation.getCurrentPosition(function(position){
-					mylating.innerHTML="latitud:"+position.coords.latitude+"<br />"+"longitud:"+position.coords.longitude;					
+        var map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+			var marker = new google.maps.Marker({
+		    position: mylating,
+		    title:"AQUI ESTOY!"
+		});
 				}, function(err){
 					alert(err.code);
 				});
