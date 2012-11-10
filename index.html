@@ -13,10 +13,31 @@
       function initialize() {
 		document.addEventListener("deviceready", function(){
 		document.addEventListener("online", function(){
+			
+			//*****************************************************
+			// detecta si es wifi y si es despliega en google maps
+			//*****************************************************
 			alert(navigator.network.connection.type);
 			if(navigator.network.connection.type=="wifi"){
 				navigator.geolocation.getCurrentPosition(function(position){
 					var mylating = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+			        var mapOptions = {
+			          center: mylating,
+			          zoom: 16,
+			          mapTypeId: google.maps.MapTypeId.SATELLITE
+			        };
+			        var map = new google.maps.Map(document.getElementById("map_canvas"),
+			            mapOptions);
+						var marker = new google.maps.Marker({
+		    			position: mylating,
+					    title:"AQUI ESTOY!"
+					});
+					// To add the marker to the map, call setMap();
+					marker.setMap(map);
+					
+					//************************************
+					//despliega y graba latitud y longitud
+					//************************************
 					if(window.localStorage.getItem("latitud")){
 						alert(window.localStorage.getItem("latitud"));
 					} else {
@@ -25,26 +46,13 @@
 					if(window.localStorage.getItem("longitud")){
 						alert(window.localStorage.getItem("longitud"));
 					} else {
-						window.localStorage.setItem("longitud",position.coords.latitude);
+						window.localStorage.setItem("longitud",position.coords.longitude);
 					}
 				}, function(err){
 					alert(err.code);
 				});
 			} 
 		},false);
-        var mapOptions = {
-          center: mylating,
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.SATELLITE
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"),
-            mapOptions);
-			var marker = new google.maps.Marker({
-		    position: mylating,
-		    title:"AQUI ESTOY!"
-		});
-		// To add the marker to the map, call setMap();
-		marker.setMap(map);
       },false);	   
       }
     </script>
